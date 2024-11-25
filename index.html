@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop Giả - Nạp Tiền</title>
+    <title>Shop Giả - Đặt Hàng và Nạp Tiền</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -32,13 +32,57 @@
         nav a:hover {
             text-decoration: underline;
         }
-        main {
+        .products {
             padding: 20px;
-            max-width: 800px;
-            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .product {
             background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .product img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .product h3 {
+            font-size: 1.5rem;
+            margin: 10px 0;
+        }
+        .product p {
+            color: #888;
+            font-size: 1.1rem;
+        }
+        .product button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .product button:hover {
+            background-color: #218838;
+        }
+        #cart {
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ddd;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        #address-form {
+            margin-top: 20px;
+            display: none;
         }
         .balance-section {
             text-align: center;
@@ -51,9 +95,6 @@
         .balance-section p {
             font-size: 1.2rem;
             color: #555;
-        }
-        .recharge-section {
-            margin-top: 20px;
         }
         .recharge-section label {
             font-size: 1.1rem;
@@ -86,19 +127,83 @@
             padding: 1rem 0;
             margin-top: 20px;
         }
+        .admin-section {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        .admin-section input {
+            padding: 10px;
+            font-size: 1rem;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+        }
+        .admin-section button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .admin-section button:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>Shop Giả - Fake Shop</h1>
+        <h1>Shop Giả - Đặt Hàng và Nạp Tiền</h1>
     </header>
     <nav>
         <a href="#home">Home</a>
         <a href="#products">Products</a>
         <a href="#cart">Cart</a>
         <a href="#recharge">Recharge</a>
+        <a href="#admin">Admin</a>
     </nav>
     <main>
+        <section class="products" id="products">
+            <div class="product">
+                <img src="https://via.placeholder.com/300x300" alt="Product 1">
+                <h3>Product 1</h3>
+                <p>$20.00</p>
+                <button onclick="addToCart('Product 1', 20)">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="https://via.placeholder.com/300x300" alt="Product 2">
+                <h3>Product 2</h3>
+                <p>$30.00</p>
+                <button onclick="addToCart('Product 2', 30)">Add to Cart</button>
+            </div>
+        </section>
+        <section id="cart">
+            <h2>Your Cart</h2>
+            <div id="cart-items">
+                <p>No items in the cart.</p>
+            </div>
+            <h3>Total: $<span id="cart-total">0</span></h3>
+            <button onclick="showAddressForm()">Proceed to Checkout</button>
+
+            <form id="address-form">
+                <h3>Enter Your Address</h3>
+                <label for="name">Name:</label>
+                <input type="text" id="name" required><br><br>
+                <label for="address">Address:</label>
+                <textarea id="address" rows="3" required></textarea><br><br>
+                <label for="phone">Phone:</label>
+                <input type="text" id="phone" required><br><br>
+                <button type="button" onclick="placeOrder()">Place Order</button>
+            </form>
+        </section>
         <section id="recharge">
             <div class="balance-section">
                 <h2>Your Balance</h2>
@@ -111,6 +216,14 @@
                 <button onclick="recharge()">Recharge</button>
             </div>
         </section>
+        <section id="admin" class="admin-section">
+            <h2>Admin Panel - Add New Product</h2>
+            <label for="product-name">Product Name:</label>
+            <input type="text" id="product-name" placeholder="Enter product name">
+            <label for="product-price">Product Price:</label>
+            <input type="number" id="product-price" placeholder="Enter product price">
+            <button onclick="addNewProduct()">Add Product</button>
+        </section>
     </main>
     <footer>
         <p>&copy; 2024 Fake Shop. All rights reserved.</p>
@@ -118,32 +231,103 @@
 
     <script>
         let balance = 0; // Số dư ban đầu
+        let cart = [];
+        let products = [
+            { name: 'Product 1', price: 20 },
+            { name: 'Product 2', price: 30 }
+        ];
 
-        // Cập nhật hiển thị số dư
+        // Cập nhật số dư hiển thị
         function updateBalanceDisplay() {
             const balanceDisplay = document.getElementById("balance-display");
             balanceDisplay.textContent = `$${balance.toFixed(2)}`;
         }
 
-        // Xử lý nạp tiền
+        // Nạp tiền
         function recharge() {
-            const rechargeInput = document.getElementById("recharge-amount");
-            const rechargeAmount = parseFloat(rechargeInput.value);
-
+            const rechargeAmount = parseFloat(document.getElementById("recharge-amount").value);
             if (isNaN(rechargeAmount) || rechargeAmount <= 0) {
-                alert("Please enter a valid amount!");
+                alert("Please enter a valid amount.");
+                return;
+            }
+            balance += rechargeAmount;
+            updateBalanceDisplay();
+        }
+
+        // Thêm sản phẩm vào giỏ hàng
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            updateCart();
+        }
+
+        // Cập nhật giỏ hàng
+        function updateCart() {
+            const cartItems = document.getElementById("cart-items");
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            const cartTotal = document.getElementById("cart-total");
+            cartTotal.textContent = total.toFixed(2);
+            cartItems.innerHTML = cart.map(item => `<p>${item.name} - $${item.price}</p>`).join('');
+        }
+
+        // Hiển thị form địa chỉ
+        function showAddressForm() {
+            const total = parseFloat(document.getElementById("cart-total").textContent);
+            if (total > balance) {
+                alert("You do not have enough balance to complete this purchase.");
+                return;
+            }
+            document.getElementById("address-form").style.display = "block";
+        }
+
+        // Đặt hàng
+        function placeOrder() {
+            const name = document.getElementById("name").value;
+            const address = document.getElementById("address").value;
+            const phone = document.getElementById("phone").value;
+
+            if (!name || !address || !phone) {
+                alert("Please fill in all fields.");
                 return;
             }
 
-            // Cập nhật số dư
-            balance += rechargeAmount;
+            const total = parseFloat(document.getElementById("cart-total").textContent);
+            balance -= total;
             updateBalanceDisplay();
-
-            alert(`Successfully recharged $${rechargeAmount.toFixed(2)}!`);
-            rechargeInput.value = ""; // Xóa input sau khi nạp
+            cart = [];
+            updateCart();
+            document.getElementById("address-form").style.display = "none";
+            alert(`Order placed successfully! \nName: ${name} \nAddress: ${address} \nPhone: ${phone}`);
         }
 
-        // Khởi tạo hiển thị số dư
+        // Thêm sản phẩm mới (Admin)
+        function addNewProduct() {
+            const name = document.getElementById("product-name").value;
+            const price = parseFloat(document.getElementById("product-price").value);
+            if (name && !isNaN(price) && price > 0) {
+                products.push({ name, price });
+                alert(`Product "${name}" added successfully.`);
+                // Tải lại danh sách sản phẩm
+                displayProducts();
+            } else {
+                alert("Please enter valid product details.");
+            }
+        }
+
+        // Hiển thị sản phẩm
+        function displayProducts() {
+            const productsSection = document.getElementById("products");
+            productsSection.innerHTML = products.map(product => 
+                `<div class="product">
+                    <img src="https://via.placeholder.com/300x300" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>$${product.price}</p>
+                    <button onclick="addToCart('${product.name}', ${product.price})">Add to Cart</button>
+                </div>`
+            ).join('');
+        }
+
+        // Khởi tạo trang
+        displayProducts();
         updateBalanceDisplay();
     </script>
 </body>
