@@ -249,7 +249,7 @@
         function recharge() {
             const rechargeAmount = parseFloat(document.getElementById("recharge-amount").value);
             if (isNaN(rechargeAmount) || rechargeAmount <= 0) {
-                alert("Please enter a valid amount.");
+                alert("nhập j đi.");
                 return;
             }
             balance += rechargeAmount;
@@ -303,7 +303,7 @@
             cart = [];
             updateCart();
             document.getElementById("address-form").style.display = "none";
-            alert(`Order placed successfully! \nName: ${name} \nAddress: ${address} \nPhone: ${phone}`);
+            alert(`Xong \nName: ${name} \nAddress: ${address} \nPhone: ${phone}`);
         }
 
         // Thêm sản phẩm mới (Admin)
@@ -314,7 +314,7 @@
 
             if (name && !isNaN(price) && price > 0 && image) {
                 products.push({ name, price, image });
-                alert(`Product "${name}" xong.`);
+                alert(`"${name}" xong.`);
                 displayProducts();
             } else {
                 alert("luoiquadeoghi.");
@@ -329,7 +329,7 @@
                     <img src="${product.image}" alt="${product.name}">
                     <h3>${product.name}</h3>
                     <p>$${product.price}</p>
-                    <button onclick="addToCart('${product.name}', ${product.price}, '${product.image}')">themvaodanchu</button>
+                    <button onclick="addToCart('${product.name}', ${product.price}, '${product.image}')">Thêm</button>
                 </div>`
             ).join('');
         }
