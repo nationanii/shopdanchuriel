@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop Giả - Đặt Hàng</title>
+    <title>Shop Giả - Nạp Tiền</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -32,62 +32,52 @@
         nav a:hover {
             text-decoration: underline;
         }
-        .products {
+        main {
             padding: 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        .product {
+            max-width: 800px;
+            margin: auto;
             background-color: white;
-            border: 1px solid #ddd;
             border-radius: 5px;
-            text-align: center;
-            padding: 15px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
         }
-        .product:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        .balance-section {
+            text-align: center;
+            margin: 20px 0;
         }
-        .product img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 5px;
-        }
-        .product h3 {
+        .balance-section h2 {
             font-size: 1.5rem;
-            margin: 10px 0;
+            margin-bottom: 10px;
         }
-        .product p {
-            color: #888;
+        .balance-section p {
+            font-size: 1.2rem;
+            color: #555;
+        }
+        .recharge-section {
+            margin-top: 20px;
+        }
+        .recharge-section label {
             font-size: 1.1rem;
         }
-        .product button {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 10px 15px;
+        .recharge-section input {
+            padding: 10px;
             font-size: 1rem;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .product button:hover {
-            background-color: #218838;
-        }
-        #cart {
-            padding: 20px;
-            background-color: white;
+            margin: 10px 0;
             border: 1px solid #ddd;
             border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            margin: 20px auto;
+            width: 100%;
         }
-        #address-form {
-            margin-top: 20px;
-            display: none; /* Ẩn form ban đầu */
+        .recharge-section button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .recharge-section button:hover {
+            background-color: #0056b3;
         }
         footer {
             background-color: #333;
@@ -106,46 +96,20 @@
         <a href="#home">Home</a>
         <a href="#products">Products</a>
         <a href="#cart">Cart</a>
+        <a href="#recharge">Recharge</a>
     </nav>
     <main>
-        <section class="products" id="products">
-            <div class="product">
-                <img src="https://via.placeholder.com/300x300" alt="Product 1">
-                <h3>Product 1</h3>
-                <p>$20.00</p>
-                <button onclick="addToCart('Product 1', 20)">Add to Cart</button>
+        <section id="recharge">
+            <div class="balance-section">
+                <h2>Your Balance</h2>
+                <p id="balance-display">$0.00</p>
             </div>
-            <div class="product">
-                <img src="https://via.placeholder.com/300x300" alt="Product 2">
-                <h3>Product 2</h3>
-                <p>$30.00</p>
-                <button onclick="addToCart('Product 2', 30)">Add to Cart</button>
+            <div class="recharge-section">
+                <h3>Recharge Your Account</h3>
+                <label for="recharge-amount">Enter Amount:</label>
+                <input type="number" id="recharge-amount" min="1" placeholder="Enter amount to recharge" required>
+                <button onclick="recharge()">Recharge</button>
             </div>
-            <div class="product">
-                <img src="https://via.placeholder.com/300x300" alt="Product 3">
-                <h3>Product 3</h3>
-                <p>$40.00</p>
-                <button onclick="addToCart('Product 3', 40)">Add to Cart</button>
-            </div>
-        </section>
-        <section id="cart">
-            <h2>Your Cart</h2>
-            <div id="cart-items">
-                <p>No items in the cart.</p>
-            </div>
-            <h3>Total: $<span id="cart-total">0</span></h3>
-            <button onclick="showAddressForm()">Proceed to Checkout</button>
-
-            <form id="address-form">
-                <h3>Enter Your Address</h3>
-                <label for="name">Name:</label>
-                <input type="text" id="name" required><br><br>
-                <label for="address">Address:</label>
-                <textarea id="address" rows="3" required></textarea><br><br>
-                <label for="phone">Phone:</label>
-                <input type="text" id="phone" required><br><br>
-                <button type="button" onclick="placeOrder()">Place Order</button>
-            </form>
         </section>
     </main>
     <footer>
@@ -153,72 +117,34 @@
     </footer>
 
     <script>
-        let cart = [];
+        let balance = 0; // Số dư ban đầu
 
-        // Thêm sản phẩm vào giỏ hàng
-        function addToCart(productName, productPrice) {
-            cart.push({ name: productName, price: productPrice });
-            updateCart();
-            alert(productName + " has been added to your cart!");
+        // Cập nhật hiển thị số dư
+        function updateBalanceDisplay() {
+            const balanceDisplay = document.getElementById("balance-display");
+            balanceDisplay.textContent = `$${balance.toFixed(2)}`;
         }
 
-        // Cập nhật giỏ hàng
-        function updateCart() {
-            const cartItems = document.getElementById("cart-items");
-            const cartTotal = document.getElementById("cart-total");
-            cartItems.innerHTML = "";
-            let total = 0;
+        // Xử lý nạp tiền
+        function recharge() {
+            const rechargeInput = document.getElementById("recharge-amount");
+            const rechargeAmount = parseFloat(rechargeInput.value);
 
-            cart.forEach((item, index) => {
-                total += item.price;
-                cartItems.innerHTML += `
-                    <div>
-                        ${item.name} - $${item.price.toFixed(2)}
-                        <button onclick="removeFromCart(${index})">Remove</button>
-                    </div>
-                `;
-            });
-
-            if (cart.length === 0) {
-                cartItems.innerHTML = "<p>No items in the cart.</p>";
-            }
-
-            cartTotal.textContent = total.toFixed(2);
-        }
-
-        // Xóa sản phẩm khỏi giỏ hàng
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCart();
-        }
-
-        // Hiển thị form nhập địa chỉ
-        function showAddressForm() {
-            if (cart.length === 0) {
-                alert("Your cart is empty!");
+            if (isNaN(rechargeAmount) || rechargeAmount <= 0) {
+                alert("Please enter a valid amount!");
                 return;
             }
 
-            const form = document.getElementById("address-form");
-            form.style.display = "block";
+            // Cập nhật số dư
+            balance += rechargeAmount;
+            updateBalanceDisplay();
+
+            alert(`Successfully recharged $${rechargeAmount.toFixed(2)}!`);
+            rechargeInput.value = ""; // Xóa input sau khi nạp
         }
 
-        // Xử lý đặt hàng giả
-        function placeOrder() {
-            const name = document.getElementById("name").value;
-            const address = document.getElementById("address").value;
-            const phone = document.getElementById("phone").value;
-
-            if (!name || !address || !phone) {
-                alert("Please fill in all required fields!");
-                return;
-            }
-
-            alert(`Order placed successfully!\nName: ${name}\nAddress: ${address}\nPhone: ${phone}`);
-            cart = [];
-            updateCart();
-            document.getElementById("address-form").style.display = "none";
-        }
+        // Khởi tạo hiển thị số dư
+        updateBalanceDisplay();
     </script>
 </body>
 </html>
