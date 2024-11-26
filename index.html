@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,33 +12,39 @@
             padding: 0;
             background-color: #f9f9f9;
         }
+        
         header {
             background-color: #333;
             color: white;
             padding: 1rem 0;
             text-align: center;
         }
+        
         nav {
             background-color: #555;
             display: flex;
             justify-content: center;
             padding: 0.5rem 0;
         }
+        
         nav a {
             color: white;
             text-decoration: none;
             margin: 0 1rem;
             font-size: 1.2rem;
         }
+        
         nav a:hover {
             text-decoration: underline;
         }
+        
         .products {
             padding: 20px;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
         }
+        
         .product {
             background-color: white;
             border: 1px solid #ddd;
@@ -46,19 +53,23 @@
             padding: 15px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
+        
         .product img {
             max-width: 100%;
             height: auto;
             border-radius: 5px;
         }
+        
         .product h3 {
             font-size: 1.5rem;
             margin: 10px 0;
         }
+        
         .product p {
             color: #888;
             font-size: 1.1rem;
         }
+        
         .product button {
             background-color: #28a745;
             color: white;
@@ -68,9 +79,11 @@
             cursor: pointer;
             border-radius: 5px;
         }
+        
         .product button:hover {
             background-color: #218838;
         }
+        
         #cart {
             padding: 20px;
             background-color: white;
@@ -80,25 +93,31 @@
             max-width: 600px;
             margin: 20px auto;
         }
+        
         #address-form {
             margin-top: 20px;
             display: none;
         }
+        
         .balance-section {
             text-align: center;
             margin: 20px 0;
         }
+        
         .balance-section h2 {
             font-size: 1.5rem;
             margin-bottom: 10px;
         }
+        
         .balance-section p {
             font-size: 1.2rem;
             color: #555;
         }
+        
         .recharge-section label {
             font-size: 1.1rem;
         }
+        
         .recharge-section input {
             padding: 10px;
             font-size: 1rem;
@@ -107,6 +126,7 @@
             border-radius: 5px;
             width: 100%;
         }
+        
         .recharge-section button {
             background-color: #007bff;
             color: white;
@@ -117,9 +137,11 @@
             cursor: pointer;
             width: 100%;
         }
+        
         .recharge-section button:hover {
             background-color: #0056b3;
         }
+        
         footer {
             background-color: #333;
             color: white;
@@ -127,6 +149,7 @@
             padding: 1rem 0;
             margin-top: 20px;
         }
+        
         .admin-section {
             margin: 20px 0;
             padding: 20px;
@@ -136,6 +159,7 @@
             max-width: 600px;
             margin: 20px auto;
         }
+        
         .admin-section input {
             padding: 10px;
             font-size: 1rem;
@@ -144,6 +168,7 @@
             border-radius: 5px;
             width: 100%;
         }
+        
         .admin-section button {
             background-color: #28a745;
             color: white;
@@ -154,11 +179,13 @@
             cursor: pointer;
             width: 100%;
         }
+        
         .admin-section button:hover {
             background-color: #218838;
         }
     </style>
 </head>
+
 <body>
     <header>
         <h1>Shop Dân Chủ.Amerika</h1>
@@ -209,14 +236,14 @@
                 <p>$1.00</p>
                 <button onclick="addToCart('Tiền', 1, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyMGcmlYEOvH54_tESu84yzLwcIi2AuqefQA&s')">Thêm</button>
             </div>
-                <div class="product">
+            <div class="product">
                 <img src="https://tanglenghean.com/wp-content/uploads/2020/09/quantai.jpg" alt="Quan tài(mua 1 tặng 1)">
                 <h3>Quan tài(mua 1 tặng 1)</h3>
                 <p>$200</p>
                 <button onclick="addToCart('Nguyễn Đác Quốc Việt', 200, 'https://tanglenghean.com/wp-content/uploads/2020/09/quantai.jpg')">Thêm</button>
             </div>
             </div>
-                <div class="product">
+            <div class="product">
                 <img src="https://tanglenghean.com/wp-content/uploads/2020/09/quantai.jpg" alt="Nguyễn Đắc Quốc Việt">
                 <h3>Nguyễn Đắc Quốc Việt</h3>
                 <p>$0.88888888888888888</p>
@@ -234,11 +261,17 @@
             <form id="address-form">
                 <h3>Địa Chỉ</h3>
                 <label for="name">Tên:</label>
-                <input type="text" id="name" required><br><br>
+                <input type="text" id="name" required>
+                <br>
+                <br>
                 <label for="address">Chỉ Địa:</label>
-                <textarea id="address" rows="3" required></textarea><br><br>
+                <textarea id="address" rows="3" required></textarea>
+                <br>
+                <br>
                 <label for="phone">Điện Thoại:</label>
-                <input type="text" id="phone" required><br><br>
+                <input type="text" id="phone" required>
+                <br>
+                <br>
                 <button type="button" onclick="placeOrder()">OK</button>
             </form>
         </section>
@@ -260,8 +293,8 @@
             <input type="text" id="product-name" placeholder="calinhucc">
             <label for="product-price">Money:</label>
             <input type="number" id="product-price" placeholder="calinhucc">
-            <label for="product-image">Ảnh URL:</label>
-            <input type="text" id="product-image" placeholder="calinhucc">
+            <label for="product-file">Upload Ảnh:</label>
+            <input type="file" id="product-file" accept="image/*">
             <button onclick="addNewProduct()">Thêm</button>
         </section>
     </main>
@@ -272,16 +305,39 @@
     <script>
         let balance = 0; // Số dư ban đầu
         let cart = [];
-        let products = [
-            { name: 'Packs dân chủ giá rẻ', price: 80, image: 'https://file.hstatic.net/1000206615/file/x-shot_ultimate_shootout_pack_nerfvietnam-1_5ffe9a5584084562a3e16778931d2c8d.jpg' },
-            { name: 'Little Boy', price: 200000, image: 'https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2022/3/13/1022921/Little-Boy.jpg' },
-            { name: 'Nô Lệ Da Den(x300)', price: 2, image: 'https://cand.com.vn/Files/Image/linhchi/2020/07/13/193ea09a-4246-4561-87cb-c1493466dac8.jpg'},
-            { name: 'Máy bay', price: 10000000, image: 'https://cafefcdn.com/zoom/700_438/203337114487263232/2021/9/9/photo1631173363810-1631173363915582869229.png'},
-            { name: 'Thẻ vào farm kinh nghiệm', price: 100000000000000, image: 'https://img.giaoduc.net.vn/w1000/Uploaded/2024/wpxlzdjwp/2021_07_29/b924b314-fd9f-4000-ab83-edeb181a5e04-4351.jpeg'},
-            { name: 'Quan tài(mua 1 tặng 1)', price: 200, image: 'https://tanglenghean.com/wp-content/uploads/2020/09/quantai.jpg'},
-            { name: 'Tiền 500k', price: 1, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyMGcmlYEOvH54_tESu84yzLwcIi2AuqefQA&s'},
-            { name: 'Nguyễn Đắc Quốc Việt', price: 0.88888888888888888, image: 'https://tanglenghean.com/wp-content/uploads/2020/09/quantai.jpg'}
-        ];
+        let products = [{
+            name: 'Packs dân chủ giá rẻ',
+            price: 80,
+            image: 'https://file.hstatic.net/1000206615/file/x-shot_ultimate_shootout_pack_nerfvietnam-1_5ffe9a5584084562a3e16778931d2c8d.jpg'
+        }, {
+            name: 'Little Boy',
+            price: 200000,
+            image: 'https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2022/3/13/1022921/Little-Boy.jpg'
+        }, {
+            name: 'Nô Lệ Da Den(x300)',
+            price: 2,
+            image: 'https://cand.com.vn/Files/Image/linhchi/2020/07/13/193ea09a-4246-4561-87cb-c1493466dac8.jpg'
+        }, {
+            name: 'Máy bay',
+            price: 10000000,
+            image: 'https://cafefcdn.com/zoom/700_438/203337114487263232/2021/9/9/photo1631173363810-1631173363915582869229.png'
+        }, {
+            name: 'Thẻ vào farm kinh nghiệm',
+            price: 100000000000000,
+            image: 'https://img.giaoduc.net.vn/w1000/Uploaded/2024/wpxlzdjwp/2021_07_29/b924b314-fd9f-4000-ab83-edeb181a5e04-4351.jpeg'
+        }, {
+            name: 'Quan tài(mua 1 tặng 1)',
+            price: 200,
+            image: 'https://tanglenghean.com/wp-content/uploads/2020/09/quantai.jpg'
+        }, {
+            name: 'Tiền 500k',
+            price: 1,
+            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyMGcmlYEOvH54_tESu84yzLwcIi2AuqefQA&s'
+        }, {
+            name: 'Nguyễn Đắc Quốc Việt',
+            price: 0.88888888888888888,
+            image: 'https://tanglenghean.com/wp-content/uploads/2020/09/quantai.jpg'
+        }];
 
         // Cập nhật hiển thị số dư
         function updateBalanceDisplay() {
@@ -301,9 +357,12 @@
 
         // Thêm sản phẩm vào giỏ hàng
         function addToCart(name, price, image) {
-            cart.push({ name, price, image });
+            cart.push({
+                name, price, image
+            });
             updateCart();
         }
+
 
         // Cập nhật giỏ hàng
         function updateCart() {
@@ -311,7 +370,7 @@
             const total = cart.reduce((sum, item) => sum + item.price, 0);
             const cartTotal = document.getElementById("cart-total");
             cartTotal.textContent = total.toFixed(2);
-            cartItems.innerHTML = cart.map(item => 
+            cartItems.innerHTML = cart.map(item =>
                 `<div class="cart-item">
                     <img src="${item.image}" alt="${item.name}" style="width: 50px; height: 50px; object-fit: cover;">
                     <p>${item.name} - $${item.price}</p>
@@ -351,23 +410,61 @@
 
         // Thêm sản phẩm mới (Admin)
         function addNewProduct() {
+                const name = document.getElementById("product-name").value;
+                const price = parseFloat(document.getElementById("product-price").value);
+                const image = document.getElementById("product-image").value;
+
+                if (name && !isNaN(price) && price > 0 && image) {
+                    products.push({
+                        name, price, image
+                    });
+                    alert(`"${name}" xong.`);
+                    displayProducts();
+                } else {
+                    alert("luoiquadeoghi.");
+                }
+            }
+            // Biến tạm lưu URL ảnh tải lên
+        let uploadedImageURL = "";
+
+        // Xử lý khi người dùng tải lên ảnh
+        document.getElementById("product-file").addEventListener("change", function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedImageURL = e.target.result; // Lưu URL ảnh
+                    alert("Ảnh đã được tải lên!");
+                };
+                reader.readAsDataURL(file); // Đọc file ảnh
+            } else {
+                uploadedImageURL = ""; // Nếu không có ảnh, reset URL
+            }
+        });
+
+        // Cập nhật hàm thêm sản phẩm mới
+        function addNewProduct() {
             const name = document.getElementById("product-name").value;
             const price = parseFloat(document.getElementById("product-price").value);
-            const image = document.getElementById("product-image").value;
+            const image = uploadedImageURL || ""; // Dùng ảnh upload
 
             if (name && !isNaN(price) && price > 0 && image) {
-                products.push({ name, price, image });
-                alert(`"${name}" xong.`);
-                displayProducts();
+                products.push({
+                    name, price, image
+                });
+                alert(`"${name}" đã được thêm.`);
+                uploadedImageURL = ""; // Reset URL sau khi thêm
+                displayProducts(); // Hiển thị lại sản phẩm
             } else {
-                alert("luoiquadeoghi.");
+                alert("Vui lòng nhập đầy đủ thông tin!");
             }
         }
+
 
         // Hiển thị sản phẩm
         function displayProducts() {
             const productsSection = document.getElementById("products");
-            productsSection.innerHTML = products.map(product => 
+            productsSection.innerHTML = products.map(product =>
                 `<div class="product">
                     <img src="${product.image}" alt="${product.name}">
                     <h3>${product.name}</h3>
@@ -382,4 +479,5 @@
         updateBalanceDisplay();
     </script>
 </body>
+
 </html>
